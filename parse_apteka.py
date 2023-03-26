@@ -6,6 +6,7 @@ category = input()
 headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36',
 }
+
 response = requests.get(category, headers=headers)
 print(response.status_code)
 medicine_list = response.json()["result"]
