@@ -1,4 +1,4 @@
-from handlers import great_user, find_drug, find_drug_button
+from handlers import great_user, find_drug_button 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 
@@ -15,7 +15,6 @@ def main():
     dp = mybot.dispatcher
 
     dp.add_handler(CommandHandler('start',great_user))
-    dp.add_handler(CommandHandler('drug', find_drug))
     dp.add_handler(MessageHandler(Filters.regex('^(Поиск лекарства)$'),find_drug_button))
     dp.add_handler(MessageHandler(Filters.text, find_drug_button))
   
@@ -27,3 +26,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
