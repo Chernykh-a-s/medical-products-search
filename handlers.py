@@ -17,10 +17,3 @@ def text_handler(update, context):
     user_input = get_user_input(update, context)
     matches = search_drug(user_input)
     send_drug_info(update, matches)
-
-
-# 2) сделать нумерацию найденых лекарств , если их больше одного найдено
-# 3) Добавить кнопку для поиска лекарств
-# 4) сделать привязку парсера к гео
-# 5) Выводить ближайшие аптеки, где можно забрать лекарства
-# 7) Доделать логирование
