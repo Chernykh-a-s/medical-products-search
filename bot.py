@@ -12,9 +12,10 @@ logger = logging.getLogger(__name__)
 
 def main():
     mybot = Updater(settings.API_KEY, use_context=True)
-    dp = mybot.dispatcher
 
+    dp = mybot.dispatcher
     dp.add_handler(CommandHandler('start',great_user))
+    dp.add_handler(CommandHandler('drug',find_drug_button))
     dp.add_handler(MessageHandler(Filters.regex('^(Поиск лекарства)$'),find_drug_button))
     dp.add_handler(MessageHandler(Filters.text, find_drug_button))
   
