@@ -1,3 +1,4 @@
+import json
 import requests
 
 
@@ -8,7 +9,6 @@ cookies = {
     '_ym_visorc': 'w',
     'c_guid': 'c073f480-6d97-4af3-976b-3c069f39db52',
 }
-
 
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -32,8 +32,12 @@ headers = {
 response = requests.get('https://aptekalegko.ru/_next/data/FUDDCaS8piyfZMougusFc/compilations.json?id=195a006a-2d78-427c-94fa-0da2aac757ba&ipClient=45.159.74.80&cityGuid=c073f480-6d97-4af3-976b-3c069f39db52', cookies=cookies, headers=headers)
 
 
-with open ('id_cities.json', 'w', encoding='utf-8') as file:
-    file.write(response.text)
+cities = response.json()['pageProps']['cities']
 
-    
+city_dict = {}
 
+for city in cities:
+    city_dict[city['guid']] = city['title']
+  
+with open('id_cities.json', 'w', encoding='utf-8') as file:
+    json.dump(city_dict, file, indent=4, ensure_ascii=False ) 
