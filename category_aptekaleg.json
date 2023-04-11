@@ -1,0 +1,128 @@
+{
+    "Заболевания глаз": [
+        {
+            "category": "oftalmologiya",
+            "subcategory": "zabolevaniya-glaz"
+        }
+    ],
+    "Витамины и минералы": [
+        {
+            "category": "bad-i-vitamini",
+            "subcategory": "vitamini-i-minerali"
+        }
+    ],
+    "БАД": [
+        {
+            "category": "bad-i-vitamini",
+            "subcategory": "bad"
+        }
+    ],
+    "Сборы": [
+        {
+            "category": "lekarstvennie-travi-sbori-fitochai",
+            "subcategory": "sbori"
+        }
+    ],
+    "Нестероидные препараты": [
+        {
+            "category": "kostno-mishechnaya-sistema",
+            "subcategory": "nesteroidnie-preparati"
+        }
+    ],
+    "Опорно-двигательный аппарат": [
+        {
+            "category": "kostno-mishechnaya-sistema",
+            "subcategory": "oporno-dvigatelnii-apparat"
+        }
+    ],
+    "Паразитарные инфекции": [
+        {
+            "category": "lechenie-infektsii",
+            "subcategory": "parazitarnie-infektsii"
+        }
+    ],
+    "Бактериофаги и анатоксины": [
+        {
+            "category": "lechenie-infektsii",
+            "subcategory": "bakteriofagi-i-anatoksini"
+        }
+    ],
+    "Противотуберкулезные": [
+        {
+            "category": "lechenie-infektsii",
+            "subcategory": "protivotuberkuleznie"
+        }
+    ],
+    "Антибиотики": [
+        {
+            "category": "lechenie-infektsii",
+            "subcategory": "antibiotiki"
+        }
+    ],
+    "Противовирусные": [
+        {
+            "category": "lechenie-infektsii",
+            "subcategory": "protivovirusnie"
+        }
+    ],
+    "Заболевания носа": [
+        {
+            "category": "lor-zabolevaniya",
+            "subcategory": "zabolevaniya-nosa"
+        }
+    ],
+    "Заболевания уха": [
+        {
+            "category": "lor-zabolevaniya",
+            "subcategory": "zabolevaniya-uha"
+        }
+    ],
+    "ЛОР заболевания. Гомеопатия": [
+        {
+            "category": "lor-zabolevaniya",
+            "subcategory": "lor-zabolevaniya-gomeopatiya"
+        }
+    ],
+    "Заболевания горла": [
+        {
+            "category": "lor-zabolevaniya",
+            "subcategory": "zabolevaniya-gorla"
+        }
+    ],
+    "Гаймориты, синуситы": [
+        {
+            "category": "lor-zabolevaniya",
+            "subcategory": "gaimoriti-sinusiti"
+        }
+    ],
+    "Гомеопатические препарты": [
+        {
+            "category": "gomeopaticheskie-preparti",
+            "subcategory": "gomeopaticheskie-preparti"
+        }
+    ],
+    "Анальгетики и спазмолитики": [
+        {
+            "category": "obezbolivayuschie-preparati",
+            "subcategory": "analgetiki-i-spazmolitiki"
+        }
+    ],
+    "Противогеморроидальные": [
+        {
+            "category": "zabolevaniya-ven",
+            "subcategory": "protivogemorroidalnie"
+        }
+    ],
+    "Противоварикозные": [
+        {
+            "category": "zabolevaniya-ven",
+            "subcategory": "protivovarikoznie"
+        }
+    ],
+    "Иммунная система": [
+        {
+            "category": "immunologiya",
+            "subcategory": "immunnaya-sistema"
+        }
+    ]
+}
