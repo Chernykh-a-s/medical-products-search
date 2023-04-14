@@ -8,24 +8,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-DRUGS = [
-    {
-        'name': 'Аквалор беби',
-        'brand': 'АКВАЛОР',
-        'variants': [
-            {'option': '150 мл мягкий душ', 'price': 449.00},
-            {'option': '15 мл капли', 'price': 237.00},
-        ]
-    },
-    {
-        'name': 'Комбилипен',
-        'brand': 'Фармстандарт-Уфимский витаминный завод,ОАО',
-        'variants': [
-            {'option': 'раствор для внутримышечного введения 2 мл ампулы 5 шт.', 'price': 234.00},
-            # {'option': 'раствор для внутримышечного введения 2 мл ампулы 10 шт.', 'price': 330.00},
-        ]
-    }
-]
+def load_drugs_data():
+    with open('drugs.json', 'r') as file:
+        drugs_data = json.load(file)
+
+    return drugs_data
 
 
 def get_user_input(update, context):
@@ -37,8 +24,8 @@ def get_user_input(update, context):
 def search_drug(search_query):
     matches_drugs = []
     
-    for drug in DRUGS:
-        if search_query in drug['name'].lower():
+    for drug in load_drugs_data():
+        if search_query in drug['product_name'].lower():
             matches_drugs.append(drug)
             
     return matches_drugs
@@ -46,39 +33,16 @@ def search_drug(search_query):
 
 def send_drug_info(update, matches_drugs):
     if not matches_drugs:
-        update.message.reply_text(f"К сожалению, я не нашел лекарств по вашему запросу.", reply_markup = main_keyboard())
+        update.message.reply_text(f"К сожалению, я не нашел медикаментов по вашему запросу.", reply_markup = main_keyboard())
 
-    for drug in matches_drugs:
-        update.message.reply_text(build_message(drug), reply_markup = main_keyboard())
+    for index, drug in enumerate(matches_drugs, start=0):
+        update.message.reply_text(build_message(drug, index), reply_markup = main_keyboard())
 
 
-def build_message(drug):
-    message = f"Название: {drug['name']}\nПроизводитель: {drug['brand']}\nВарианты:\n"
-
-    if len(drug['variants']) == 1:
-        message += format_variant(drug['variants'][0])
-    else:
-        message += build_variant_list(drug['variants'])
-
-    message += "\n"
+def build_message(drug, index):
+    message = f"{index + 1}. Название: {drug['product_name']}\n\nПроизводитель: {drug['manufacturer']}\n\nЦена: {drug['price']} руб."
 
     return message
-
-
-def build_variant_list(variants):
-    variants_list = ""
-
-    for item, variant in enumerate(variants, start=1):
-        variants_list += format_variant(variant, item) + "\n"
-
-    return variants_list
-
-
-def format_variant(variant, item_number=None):
-    if item_number is None:
-        return f"{variant['option']} - {variant['price']} руб."
-    
-    return f"{item_number}. {variant['option']} - {variant['price']} руб."
 
 
 def main_keyboard():

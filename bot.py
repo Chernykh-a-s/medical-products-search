@@ -23,6 +23,7 @@ def main():
     mybot.start_polling()
     mybot.idle()
 
+
     logger.info('Бот запущен') 
 
 
