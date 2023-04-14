@@ -16,9 +16,7 @@ def main():
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler('start',great_user))
     dp.add_handler(MessageHandler(Filters.text, text_handler))
-    
-    
-  
+      
     mybot.start_polling()
     mybot.idle()
 
