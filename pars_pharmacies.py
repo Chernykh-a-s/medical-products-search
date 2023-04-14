@@ -44,7 +44,7 @@ def save_json_pharmacies(result_pharmacies_cities):
         json.dump(result_pharmacies_cities, f, ensure_ascii=False, indent=4)
 
 
-if __name__ == '__main__':
+def main():
     url = 'https://aptekalegko.ru/_next/data/SY0uI5MoAnmSdSWosg1JN/catalog/oftalmologiya/zabolevaniya-glaz.json'
    
     cities_id = get_responce_cities_id(url)
@@ -54,3 +54,8 @@ if __name__ == '__main__':
     result_pharmacies_cities = get_pharmacies_by_city(cities_dict) 
 
     save_json_pharmacies(result_pharmacies_cities)
+
+
+if __name__ == '__main__':
+    main()
+    
