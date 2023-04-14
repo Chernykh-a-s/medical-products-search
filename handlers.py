@@ -1,4 +1,5 @@
-from utils import get_user_input, search_drug, send_drug_info, main_keyboard, open_pharmacies_data, get_nearest_pharmacies, get_pharmacy_info
+from utils import get_user_input, search_drug, send_drug_info, main_keyboard, get_nearest_pharmacies
+
 
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -7,8 +8,7 @@ logger = logging.getLogger(__name__)
 
 def great_user(update, context):
     update.message.reply_text(f'Привет! Я чат бот СправАптека. Работаю 2️⃣4️⃣ / 7️⃣, без выходных и перерывов. Помогу Вам найти нужные медикаменты в аптеках рядом с вами.🚑')
-    update.message.reply_text(f'Для поиска медикаментов - введите название', reply_markup = main_keyboard())
-    
+        
     logger.info('Вызван /start') 
 
 
@@ -19,18 +19,11 @@ def medicines(update, context):
 
 
 def user_coordinates(update, context):
-    user_coord = update.message.location
-    update.message.reply_text(f'Ваши координаты {user_coord}', reply_markup = main_keyboard())
-    return user_coord
+    user_lat = update.message.location.latitude
+    user_lon = update.message.location.longitude
+    message = get_nearest_pharmacies(user_lat, user_lon)
+    update.message.reply_text(message, reply_markup = main_keyboard())
 
-def search_pharmacies(update, context):
-    user_location = (update.message.location)
-    pharmacies_data = open_pharmacies_data()
-    nearest_pharmacies = get_nearest_pharmacies(pharmacies_data, user_location)
-    message = "Ближайшие аптеки:\n"
-    for pharmacy_data in nearest_pharmacies:
-        pharmacy = pharmacy_data["pharmacy"]
-        distance = pharmacy_data["distance"]
-        pharmacy["distance"] = distance
-        message += get_pharmacy_info(pharmacy) + "\n"
-    logger.info('Найдены аптеки') 
+def help(update, context):
+    update.message.reply_text(f'Для поиска медикаментов - введите название.\n\nДля поиска ближайших аптек - нажмите кнопку "Ближайшие аптеки" или поделитесь Геопозицией', reply_markup = main_keyboard())  
+    

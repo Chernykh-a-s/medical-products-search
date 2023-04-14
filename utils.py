@@ -82,34 +82,46 @@ def format_variant(variant, item_number=None):
 
 
 def main_keyboard():
-    return ReplyKeyboardMarkup([['Ближайшие аптеки', KeyboardButton('Мои координаты', request_location=True) ]], resize_keyboard=True)
-    
+    return ReplyKeyboardMarkup([[KeyboardButton('Ближайшие аптеки', request_location=True), 'Справка' ]], resize_keyboard=True)
 
-def open_pharmacies_data():
-    with open("pharmacies.json", "r", encoding="utf-8") as data:
-        pharmacies_data = json.load(data)
+
+def load_pharmacies_data():
+    with open('pharmacies.json', 'r') as f:
+        pharmacies_data = json.load(f)
+
     return pharmacies_data
 
-def get_pharmacy_distance(pharmacy, user_location):
-    return geodesic(user_location, pharmacy["coordinates"]).km
+
+def get_distance(user_lat, user_lon, pharmacy_lat, pharmacy_lon):
+    user_coord = (user_lat, user_lon)
+    pharmacy_coord = (pharmacy_lat, pharmacy_lon)
+
+    return geodesic(user_coord, pharmacy_coord).km
+
 
 def get_pharmacy_info(pharmacy):
-    info = f"Город: {pharmacy['city']}\n"
-    info += f"Название: {pharmacy['brand']}\n"
-    info += f"Адрес: {pharmacy['street']}, {pharmacy['buildNumber']}\n"
-    info += f"Время работы: {pharmacy['weekDayTime']}\n"
-    info += f"Телефон: {pharmacy['phone']}\n"
-    info += f"Расстояние: {pharmacy['distance']:.2f} км\n"
+    info = f'Название: {pharmacy["brand"]}\nАдрес: {pharmacy["street"]} {pharmacy["buildNumber"]}\nВремя работы: {pharmacy["weekDayTime"]}\nТелефон: {pharmacy["phone"]}\n\n'
+  
     return info
 
-def get_nearest_pharmacies(pharmacies_data, user_location, n=5):
-    distances = []
-    for city, pharmacies in pharmacies_data.items():
-        for pharmacy in pharmacies:
-            distance = get_pharmacy_distance(pharmacy, user_location)
-            distances.append({"pharmacy": pharmacy, "distance": distance})
-    sorted_pharmacies = sorted(distances, key=lambda p: p["distance"])[:n]
-    return sorted_pharmacies
 
+def get_nearest_pharmacies(user_lat, user_lon, n=3):
+    pharmacies_data = load_pharmacies_data()
 
-    
+    distances = {}  
+    for city, pharmacies_list in pharmacies_data.items():
+        for pharmacy in pharmacies_list:
+            pharmacy_lat, pharmacy_lon = pharmacy['coordinates']
+            distance = get_distance(user_lat, user_lon, pharmacy_lat, pharmacy_lon)
+            distances[(city, pharmacy['brand'])] = {'distance': distance, 'pharmacy': pharmacy}
+
+    nearest_pharmacies = sorted(distances.items(), key=lambda x: x[1]['distance'])[:n]
+
+    message = 'Ближайшие аптеки:\n\n'
+    for i, ((city, brand), data) in enumerate(nearest_pharmacies, 1):
+        distance = data['distance']
+        pharmacy_info = get_pharmacy_info(data['pharmacy'])
+        message += f'{i}. {brand} в г. {city} ({distance:.2f} км)\n'
+        message += pharmacy_info
+
+    return message

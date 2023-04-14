@@ -1,5 +1,4 @@
-from handlers import great_user, medicines, user_coordinates, search_pharmacies, 
-
+from handlers import great_user, medicines, user_coordinates, help
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 
@@ -16,8 +15,7 @@ def main():
 
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler('start',great_user))
-    dp.add_handler(CommandHandler('pharmacies', search_pharmacies))
-    dp.add_handler(MessageHandler(Filters.regex('^(Ближайшие аптеки)$'), search_pharmacies))
+    dp.add_handler(MessageHandler(Filters.regex('^(Справка)$'), help))
     dp.add_handler(MessageHandler(Filters.location, user_coordinates))
     dp.add_handler(MessageHandler(Filters.text, medicines))
     
