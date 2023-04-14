@@ -1,4 +1,5 @@
-from handlers import great_user, text_handler
+from handlers import great_user, medicines, user_coordinates, search_pharmacies, 
+
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 
@@ -15,7 +16,11 @@ def main():
 
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler('start',great_user))
-    dp.add_handler(MessageHandler(Filters.text, text_handler))
+    dp.add_handler(CommandHandler('pharmacies', search_pharmacies))
+    dp.add_handler(MessageHandler(Filters.regex('^(Ближайшие аптеки)$'), search_pharmacies))
+    dp.add_handler(MessageHandler(Filters.location, user_coordinates))
+    dp.add_handler(MessageHandler(Filters.text, medicines))
+    
       
     mybot.start_polling()
     mybot.idle()

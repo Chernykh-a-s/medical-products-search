@@ -1,3 +1,13 @@
+from geopy.distance import geodesic
+import json
+from telegram import ReplyKeyboardMarkup, KeyboardButton
+
+
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
 DRUGS = [
     {
         'name': 'Аквалор беби',
@@ -36,10 +46,10 @@ def search_drug(search_query):
 
 def send_drug_info(update, matches_drugs):
     if not matches_drugs:
-        update.message.reply_text("К сожалению, я не нашел лекарств по вашему запросу.")
+        update.message.reply_text(f"К сожалению, я не нашел лекарств по вашему запросу.", reply_markup = main_keyboard())
 
     for drug in matches_drugs:
-        update.message.reply_text(build_message(drug))
+        update.message.reply_text(build_message(drug), reply_markup = main_keyboard())
 
 
 def build_message(drug):
@@ -69,3 +79,37 @@ def format_variant(variant, item_number=None):
         return f"{variant['option']} - {variant['price']} руб."
     
     return f"{item_number}. {variant['option']} - {variant['price']} руб."
+
+
+def main_keyboard():
+    return ReplyKeyboardMarkup([['Ближайшие аптеки', KeyboardButton('Мои координаты', request_location=True) ]], resize_keyboard=True)
+    
+
+def open_pharmacies_data():
+    with open("pharmacies.json", "r", encoding="utf-8") as data:
+        pharmacies_data = json.load(data)
+    return pharmacies_data
+
+def get_pharmacy_distance(pharmacy, user_location):
+    return geodesic(user_location, pharmacy["coordinates"]).km
+
+def get_pharmacy_info(pharmacy):
+    info = f"Город: {pharmacy['city']}\n"
+    info += f"Название: {pharmacy['brand']}\n"
+    info += f"Адрес: {pharmacy['street']}, {pharmacy['buildNumber']}\n"
+    info += f"Время работы: {pharmacy['weekDayTime']}\n"
+    info += f"Телефон: {pharmacy['phone']}\n"
+    info += f"Расстояние: {pharmacy['distance']:.2f} км\n"
+    return info
+
+def get_nearest_pharmacies(pharmacies_data, user_location, n=5):
+    distances = []
+    for city, pharmacies in pharmacies_data.items():
+        for pharmacy in pharmacies:
+            distance = get_pharmacy_distance(pharmacy, user_location)
+            distances.append({"pharmacy": pharmacy, "distance": distance})
+    sorted_pharmacies = sorted(distances, key=lambda p: p["distance"])[:n]
+    return sorted_pharmacies
+
+
+    
