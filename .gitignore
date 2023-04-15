@@ -1,6 +1,7 @@
 settings.py
 .idea
 pharmacies.json
+drugs.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
